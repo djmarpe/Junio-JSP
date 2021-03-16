@@ -14,7 +14,7 @@
         <title>Home</title>
     </head>
     <body class="bg-dark-blue text-white">
-        <div class="row m-5 p-5 rounded bg-white text-dark ">
+        <div class="row m-5 p-5 rounded bg-white text-dark">
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
