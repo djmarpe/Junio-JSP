@@ -138,6 +138,81 @@ public class ConexionEstatica {
         return es;
     }
 
+    public static LinkedList getExamenes() {
+        nueva();
+        LinkedList listaExamenes = new LinkedList();
+
+        String sentencia = "Select * from examen";
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            while (Conj_Registros.next()) {
+                Examen ex = new Examen();
+                ex.setId(Conj_Registros.getInt(1));
+                ex.setIdProfesor(Conj_Registros.getInt(2));
+                ex.setFechaInicio(Conj_Registros.getString(3));
+                ex.setFechaFin(Conj_Registros.getString(4));
+                ex.setEstado(Conj_Registros.getInt(5));
+                ex.setTitulo(Conj_Registros.getString(6));
+                ex.setDescripcion(Conj_Registros.getString(7));
+                listaExamenes.add(ex);
+            }
+        } catch (SQLException ex) {
+
+        }
+
+        cerrarBD();
+        return listaExamenes;
+    }
+
+    public static boolean finalizarExamen(int id) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "Update examen set estado = 2 Where id = " + id;
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+    
+    public static boolean activarExamen(int id) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "Update examen set estado = 1 Where id = " + id;
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+    
+    public static boolean borrarExamen(int id) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "Delete from examen Where id = " + id;
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
 //
 //    public static boolean enviarMensaje(String emisor, String receptor, String asunto, String cuerpo) {
 //        nueva();

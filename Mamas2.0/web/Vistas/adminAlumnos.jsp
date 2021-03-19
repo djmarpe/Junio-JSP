@@ -16,7 +16,7 @@
         <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../css/all.min.css">
         <link rel="stylesheet" type="text/css" href="../css/miCss.css">
-        <title>Administrador de exámenes</title>
+        <title>Administrador de Alumnos</title>
     </head>
     <body class="bg-dark-blue text-white">
         <%
@@ -55,10 +55,10 @@
                         <a class="navbar-brand text-dark" href="#">
                             Crear preguntas
                         </a>
-                        <a class="navbar-brand text-dark text-decoration-underline" href="panelProfesor.jsp">
+                        <a class="navbar-brand text-dark" href="panelProfesor.jsp">
                             Admin. examenes
                         </a>
-                        <a class="navbar-brand text-dark" href="adminAlumnos.jsp">
+                        <a class="navbar-brand text-dark text-decoration-underline" href="adminAlumnos.jsp">
                             Admin. usuarios
                         </a>
 
