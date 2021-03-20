@@ -180,7 +180,7 @@ public class ConexionEstatica {
         cerrarBD();
         return ok;
     }
-    
+
     public static boolean activarExamen(int id) {
         nueva();
         boolean ok = false;
@@ -196,7 +196,7 @@ public class ConexionEstatica {
         cerrarBD();
         return ok;
     }
-    
+
     public static boolean borrarExamen(int id) {
         nueva();
         boolean ok = false;
@@ -213,6 +213,98 @@ public class ConexionEstatica {
         return ok;
     }
 
+    public static LinkedList getAlumnos(int idUsuario) {
+        nueva();
+        LinkedList<Persona> listaAlumnos = new LinkedList<Persona>();
+        String sentencia = "SELECT asignacionRol.idUsuario, users.name,"
+                + "users.surname, users.email, users.passwd, users.status from "
+                + "asignacionRol, users WHERE asignacionRol.idUsuario=users.id "
+                + "AND asignacionRol.idRol like 2 and asignacionRol.idUsuario <> " + idUsuario + " and users.id <> " + idUsuario;
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            while (Conj_Registros.next()) {
+                Persona aux = new Persona();
+                aux.setId(Conj_Registros.getInt(1));
+                aux.setName(Conj_Registros.getString(2));
+                aux.setSurname(Conj_Registros.getString(3));
+                aux.setEmail(Conj_Registros.getString(4));
+                aux.setPasswd(Conj_Registros.getString(5));
+                aux.setStatus(Conj_Registros.getInt(6));
+                listaAlumnos.add(aux);
+            }
+        } catch (SQLException ex) {
+        }
+        cerrarBD();
+        return listaAlumnos;
+    }
+
+    public static boolean editarAlumno(Persona aux) {
+        nueva();
+        boolean ok = false;
+
+        if (aux.getPasswd().isEmpty()) {
+            String sentencia = "Update users set name = '" + aux.getName() + "', surname = '" + aux.getSurname() + "', email = '" + aux.getEmail() + "', status = " + aux.getStatus() + " Where id = " + aux.getId();
+            try {
+                Sentencia_SQL.executeUpdate(sentencia);
+                ok = true;
+            } catch (SQLException ex) {
+            }
+        } else {
+            String sentencia = "Update users set name = '" + aux.getName() + "', surname = '" + aux.getSurname() + "', email = '" + aux.getEmail() + "' passwd = '" + aux.getPasswd() + "', status = " + aux.getStatus() + " Where id = " + aux.getId();;
+            try {
+                Sentencia_SQL.executeUpdate(sentencia);
+                ok = true;
+            } catch (SQLException ex) {
+            }
+
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
+    public static boolean borrarAlumno(int id) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "delete from users where id = " + id;
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
+    public static boolean agregarAlumno(Persona aux) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia1 = "insert into users values(NULL,'" + aux.getName() + "','" + aux.getSurname() + "','" + aux.getEmail() + "','" + aux.getPasswd() + "'," + aux.getStatus() + ");";
+        try {
+            Sentencia_SQL.executeUpdate(sentencia1);
+            String sentencia2 = "Select id from users Where email = '" + aux.getEmail() + "'";
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia2);
+            if (Conj_Registros.next()) {
+                if (aux.getCargo().equals("Alumno")) {
+                    String sentencia3 = "insert into asignacionRol values (" + Conj_Registros.getInt(1) + ",2)";
+                    Sentencia_SQL.executeUpdate(sentencia3);
+                    ok = true;
+                }
+                if (aux.getCargo().equals("Profesor")) {
+                    String sentencia3 = "insert into asignacionRol values (" + Conj_Registros.getInt(1) + ",1)";
+                    Sentencia_SQL.executeUpdate(sentencia3);
+                    ok = true;
+                }
+
+            }
+        } catch (SQLException ex) {
+        }
+        cerrarBD();
+        return ok;
+    }
 //
 //    public static boolean enviarMensaje(String emisor, String receptor, String asunto, String cuerpo) {
 //        nueva();

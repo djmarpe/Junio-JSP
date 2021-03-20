@@ -18,6 +18,7 @@ public class Persona {
     private String surname;
     private String email;
     private String passwd;
+    private String cargo;
     private int status;
 
     public Persona(int id, String name, String surname, String email, String passwd, int status) {
@@ -78,6 +79,14 @@ public class Persona {
         this.passwd = passwd;
     }
 
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+    
     public int getStatus() {
         return status;
     }

@@ -21,13 +21,9 @@
     <body class="bg-dark-blue text-white">
         <%
             Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
-            LinkedList<Examen> listaExamen = null;
-            LinkedList<Examen> examenesDesactivados = new LinkedList<Examen>();
-            LinkedList<Examen> examenesActivos = new LinkedList<Examen>();
-            LinkedList<Examen> examenesFinalizados = new LinkedList<Examen>();
-            LinkedList<Examen> examenesCorregidos = new LinkedList<Examen>();
-            if (session.getAttribute("listaExamen") != null) {
-                listaExamen = (LinkedList<Examen>) session.getAttribute("listaExamen");
+            LinkedList<Persona> listaAlumnos = null;
+            if (session.getAttribute("listaAlumnos") != null) {
+                listaAlumnos = (LinkedList<Persona>) session.getAttribute("listaAlumnos");
             }
         %>
         <div class="sticky-top bg-dark-blue py-2">
@@ -38,7 +34,7 @@
 
                 <div class="col-6 align-self-center">
                     <a href="../controlador/controlador.jsp?cerrarSesion=cerrarSesion" class="float-end mx-3 btn btn-danger">Cerrar sesión</a>
-                    <a href="#" class="float-end mx-3 btn btn-secondary">Vista alumno</a>
+                    <a href="panelAlumno.jsp" class="float-end mx-3 btn btn-secondary">Vista alumno</a>
                 </div>
             </header>
             <div class="row bg-white m-3">
@@ -68,244 +64,137 @@
         </div>
         <div class="row m-3 bg-white text-dark p-3">
             <div class="col-12 d-flex justify-content-between">
+                <table class="w-100 my-5">
+                    <tr class="m-5">
+                        <th class="h3 w-auto">Nombre</th>
+                        <th class="h3 w-auto">Apellidos</th>
+                        <th class="h3 w-auto">Correo electrónico</th>
+                        <th class="h3 w-auto">Contraseña</th>
+                        <th class="h3 w-auto text-center">Estado</th>
+                        <th class="h3 w-auto text-center">Cargo</th>
+                        <th class="h3 w-auto text-center">Acciones</th>
+                    </tr>
+                    <form action="../controlador/controlador.jsp" method="POST">
+                        <tr>
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="name_alumno" placeholder="Nombre">
+                        </td>
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="surname_alumno" placeholder="Apellidos">
+                        </td>
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="email_alumno" placeholder="Email">
+                        </td>
+                        <td class="w-auto">
+                            <input class="form-control" type="password" name="passwd_alumno" placeholder="Contraseña">
+                        </td>
+                        <td class="w-auto text-center">
+                            <select name="status_alumno" class="form-select">
+                                <option selected>
+                                    Activado
+                                </option>
+                                <option>
+                                    Desactivado
+                                </option>
+                            </select>
+                        </td>
+                        <td class="w-auto text-center">
+                            <select name="cargo_alumno" class="form-select">
+                                <option selected>
+                                    Alumno
+                                </option>
+                                <option>
+                                    Profesor
+                                </option>
+                            </select>
+                        </td>
+                        <td class="w-auto text-center">
+                            <button class="btn m-0 p-0" type="submit" name="alumnos_btn_agregar"><i class="fas fa-plus-square text-info"></i></button>
+                        </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+            
+            <div class="col-12 d-flex justify-content-between">
                 <%
-                    if (listaExamen != null) {
+                    if (listaAlumnos != null) {
                 %>
 
-                <table class="w-100">
+                <table class="w-100 my-5">
                     <tr class="m-5">
-                        <th class="h3 w-25">Título</th>
-                        <th class="h3 w-25">Descripción</th>
-                        <th class="h3 w-25">Fecha</th>
-                        <th class="h3 w-auto">Estado</th>
-                        <th class="h3 w-auto">Acciones</th>
+                        <th class="h3 w-auto">Nombre</th>
+                        <th class="h3 w-auto">Apellidos</th>
+                        <th class="h3 w-auto">Correo electrónico</th>
+                        <th class="h3 w-auto">Contraseña</th>
+                        <th class="h3 w-auto text-center">Estado</th>
+                        <th class="h3 w-auto text-center">Acciones</th>
                     </tr>
                     <%
-                        //Separamos los examenes por estado
-                        for (int i = 0; i < listaExamen.size(); i++) {
-                            Examen aux = listaExamen.get(i);
-
-                            switch (aux.getEstado()) {
-                                case 0:
-                                    examenesDesactivados.add(aux);
-                                    break;
-                                case 1:
-                                    examenesActivos.add(aux);
-                                    break;
-                                case 2:
-                                    examenesFinalizados.add(aux);
-                                    break;
-                                case 3:
-                                    examenesCorregidos.add(aux);
-                                    break;
-                            }
-
-                        }
-                    %>
-                    <tr>
-                        <td colspan="4" class="text-center h5">Exámenes en proceso</td>
-                    </tr>
-                    <%
-                        if (examenesActivos.size() > 0) {
-                            for (int i = 0; i < examenesActivos.size(); i++) {
-                                Examen aux = examenesActivos.get(i);
+                        if (listaAlumnos.size() > 0) {
+                            for (int i = 0; i < listaAlumnos.size(); i++) {
+                                Persona aux = listaAlumnos.get(i);
 
                     %>
                     <form action="../controlador/controlador.jsp" method="POST">
                         <tr>
-                        <input type="hidden" name="idExamen" value="<%= aux.getId()%>">
-                        <td class="w-25">
-                            <%= aux.getTitulo()%>
+                        <input type="hidden" name="idAlumno" value="<%= aux.getId()%>">
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="name_alumno" value="<%= aux.getName()%>">
                         </td>
-                        <td class="w-25">
-                            <%= aux.getDescripcion()%>
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="surname_alumno" value="<%= aux.getSurname()%>">
                         </td>
-                        <td class="w-25">
-                            <div class="w-100">
-                                <small>F. inicio:</small>
-                                <small><%= aux.getFechaInicio()%></small>
-                            </div>
-                            <div class="w-100">
-                                <small>F. fin:</small>
-                                <small><%= aux.getFechaFin()%></small>
-                            </div>
+                        <td class="w-auto">
+                            <input class="form-control" type="text" name="email_alumno" value="<%= aux.getEmail()%>">
                         </td>
-                        <td>
-                            <i class="fas fa-circle text-success"></i>
+                        <td class="w-auto">
+                            <input class="form-control" type="password" name="passwd_alumno" placeholder="Nueva contraseña">
                         </td>
-                        <td>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_parar"><i class="fas fa-stop-circle text-warning"></i></button>
+                        <td class="w-auto text-center">
+                            <select name="status_alumno" class="form-select">
+                                <%
+                                    if (aux.getStatus() == 1) {
+                                %>
+                                <option selected>
+                                    Activado
+                                </option>
+                                <option>
+                                    Desactivado
+                                </option>
+                                <%
+                                } else {
+                                %>
+                                <option>
+                                    Activado
+                                </option>
+                                <option selected>
+                                    Desactivado
+                                </option>
+                                <%
+                                    }
+                                %>
+
+                            </select>
+                        </td>
+                        <td class="w-auto text-center">
+                            <button class="btn m-0 p-0" type="submit" name="alumnos_btn_editar"><i class="fas fa-pencil-alt text-warning"></i></button>
+                            <button class="btn m-0 p-0" type="submit" name="alumnos_btn_borrar"><i class="fas fa-trash-alt text-danger"></i></button>
                         </td>
                         </tr>
                     </form>
                     <%
                         }
                     } else {
-
                     %>
                     <tr>
-                        <td colspan="4" class="text-center">
-                            No hay exámenes en proceso en este momento
+                        <td colspan="6" class="text-center">
+                            No hay alumnos en este momento
                         </td>
                     </tr>
                     <%    }
                     %>
-
-                    <tr>
-                        <td colspan="4" class="text-center h5">Exámenes desactivados</td>
-                    </tr>
-
-                    <%
-                        if (examenesDesactivados.size() > 0) {
-                            for (int i = 0; i < examenesDesactivados.size(); i++) {
-                                Examen aux = examenesDesactivados.get(i);
-
-                    %>
-                    <form action="../controlador/controlador.jsp" method="POST">
-                        <tr>
-                        <input type="hidden" name="idExamen" value="<%= aux.getId()%>">
-                        <td class="w-25">
-                            <%= aux.getTitulo()%>
-                        </td>
-                        <td class="w-25">
-                            <%= aux.getDescripcion()%>
-                        </td>
-                        <td class="w-25">
-                            <div class="w-100">
-                                <small>F. inicio:</small>
-                                <small><%= aux.getFechaInicio()%></small>
-                            </div>
-                            <div class="w-100">
-                                <small>F. fin:</small>
-                                <small><%= aux.getFechaFin()%></small>
-                            </div>
-                        </td>
-                        <td>
-                            <i class="fas fa-circle text-danger"></i>
-                        </td>
-                        <td>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_activar"><i class="fas fa-play-circle text-success"></i></button>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_borrar"><i class="fas fa-trash-alt text-danger"></i></button>
-                        </td>
-                        </tr>
-                    </form>
-                    <%
-                        }
-                    } else {
-
-                    %>
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            No hay exámenes desactivados en este momento
-                        </td>
-                    </tr>
-                    <%    }
-                    %>
-
-
-                    <tr>
-                        <td colspan="4" class="text-center h5">Exámenes finalizados</td>
-                    </tr>
-
-                    <%
-                        if (examenesFinalizados.size() > 0) {
-                            for (int i = 0; i < examenesFinalizados.size(); i++) {
-                                Examen aux = examenesFinalizados.get(i);
-
-                    %>
-                    <form action="../controlador/controlador.jsp" method="POST">
-                        <tr>
-                        <input type="hidden" name="idExamen" value="<%= aux.getId()%>">
-                        <td class="w-25">
-                            <%= aux.getTitulo()%>
-                        </td>
-                        <td class="w-25">
-                            <%= aux.getDescripcion()%>
-                        </td>
-                        <td class="w-25">
-                            <div class="w-100">
-                                <small>F. inicio:</small>
-                                <small><%= aux.getFechaInicio()%></small>
-                            </div>
-                            <div class="w-100">
-                                <small>F. fin:</small>
-                                <small><%= aux.getFechaFin()%></small>
-                            </div>
-                        </td>
-                        <td>
-                            <i class="fas fa-circle text-primary"></i>
-                        </td>
-                        <td>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_corregir"><i class="fas fa-tasks text-primary"></i></button>
-                        </td>
-                        </tr>
-                    </form>
-                    <%
-                        }
-                    } else {
-
-                    %>
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            No hay exámenes finalizados en este momento
-                        </td>
-                    </tr>
-                    <%    }
-                    %>
-
-
-                    <tr class="mt-5">
-                        <td colspan="4" class="text-center h5">Exámenes corregidos</td>
-                    </tr>
-
-                    <%
-                        if (examenesCorregidos.size() > 0) {
-                            for (int i = 0; i < examenesCorregidos.size(); i++) {
-                                Examen aux = examenesCorregidos.get(i);
-
-                    %>
-                    <form action="../controlador/controlador.jsp" method="POST">
-                        <tr>
-                        <input type="hidden" name="idExamen" value="<%= aux.getId()%>">
-                        <td class="w-25">
-                            <%= aux.getTitulo()%>
-                        </td>
-                        <td class="w-25">
-                            <%= aux.getDescripcion()%>
-                        </td>
-                        <td class="w-25">
-                            <div class="w-100">
-                                <small>F. inicio:</small>
-                                <small><%= aux.getFechaInicio()%></small>
-                            </div>
-                            <div class="w-100">
-                                <small>F. fin:</small>
-                                <small><%= aux.getFechaFin()%></small>
-                            </div>
-                        </td>
-                        <td>
-                            <i class="fas fa-circle text-warning"></i>
-                        </td>
-                        <td>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_ver"><i class="fas fa-eye text-info"></i></button>
-                        </td>
-                        </tr>
-                    </form>
-                    <%
-                        }
-                    } else {
-
-                    %>
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            No hay exámenes corregidos en este momento
-                        </td>
-                    </tr>
-                    <%    }
-                    %>
-
                 </table>
-
                 <%
                     }
                 %>
