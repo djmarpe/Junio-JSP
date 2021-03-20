@@ -24,15 +24,20 @@
         String passwd = request.getParameter("passwd_login");
         if (ConexionEstatica.existeUsuario(email, passwd)) {
             Persona usuarioLogin = ConexionEstatica.getPersona(email, passwd);
-            if (ConexionEstatica.esProfesor(usuarioLogin)) {
-                LinkedList<Examen> listaExamen = (LinkedList<Examen>) ConexionEstatica.getExamenes();
-                session.setAttribute("listaExamen", listaExamen);
-                response.sendRedirect("../Vistas/panelProfesor.jsp");
+            if (usuarioLogin.getStatus() == 0) {
+                session.setAttribute("msj", "Usuario deshabilitado");
+                response.sendRedirect("../Vistas/login.jsp");
+            } else {
+                if (ConexionEstatica.esProfesor(usuarioLogin)) {
+                    LinkedList<Examen> listaExamen = (LinkedList<Examen>) ConexionEstatica.getExamenes();
+                    session.setAttribute("listaExamen", listaExamen);
+                    response.sendRedirect("../Vistas/panelProfesor.jsp");
+                }
+                if (ConexionEstatica.esAlumno(usuarioLogin)) {
+                    response.sendRedirect("../Vistas/panelAlumno.jsp");
+                }
+                session.setAttribute("usuarioLogin", usuarioLogin);
             }
-            if (ConexionEstatica.esAlumno(usuarioLogin)) {
-                response.sendRedirect("../Vistas/panelAlumno.jsp");
-            }
-            session.setAttribute("usuarioLogin", usuarioLogin);
         } else {
             session.setAttribute("msj", "Credenciales inválidas");
             response.sendRedirect("../Vistas/login.jsp");
@@ -102,7 +107,7 @@
                 aux.setStatus(1);
                 break;
             case "Desactivado":
-                aux.setStatus(2);
+                aux.setStatus(0);
         }
         aux.setCargo(request.getParameter("cargo_alumno"));
         if (ConexionEstatica.agregarAlumno(aux)) {
