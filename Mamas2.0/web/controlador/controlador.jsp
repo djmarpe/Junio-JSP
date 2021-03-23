@@ -10,7 +10,7 @@
         session.removeAttribute("msj");
         response.sendRedirect("../Vistas/login.jsp");
     }
-
+    
     if (request.getParameter("registro") != null) {
         session.removeAttribute("msj");
         response.sendRedirect("../Vistas/registro.jsp");
@@ -54,6 +54,22 @@
     }
 
     //**************************************************************************
+    //************************* Vista Registro *********************************
+    //**************************************************************************
+    if (request.getParameter("btn_registro") != null) {
+        String nombre = request.getParameter("name_registro");
+        String apellidos = request.getParameter("surname_registro");
+        String email = request.getParameter("email_registro");
+        String passwd = request.getParameter("passwd_registro");
+        
+        if (ConexionEstatica.registrarUsuario(nombre, apellidos, email, passwd)) {
+            session.setAttribute("msj", "Usuario registrado, ya puede iniciar sesión!");
+            response.sendRedirect("../Vistas/login.jsp");
+        }
+        
+    }
+
+    //**************************************************************************
     //************************* Admin Alumnos **********************************
     //**************************************************************************
     if (request.getParameter("adminAlumnos") != null) {
@@ -62,7 +78,7 @@
         session.setAttribute("listaAlumnos", listaAlumnos);
         response.sendRedirect("../Vistas/adminAlumnos.jsp");
     }
-
+    
     if (request.getParameter("alumnos_btn_editar") != null) {
         Persona aux = new Persona();
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
@@ -83,7 +99,7 @@
             response.sendRedirect("../Vistas/adminAlumnos.jsp");
         }
     }
-
+    
     if (request.getParameter("alumnos_btn_borrar") != null) {
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
         int id = Integer.parseInt(request.getParameter("idAlumno"));
@@ -94,7 +110,7 @@
             response.sendRedirect("../Vistas/adminAlumnos.jsp");
         }
     }
-
+    
     if (request.getParameter("alumnos_btn_agregar") != null) {
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
         Persona aux = new Persona();
