@@ -138,6 +138,29 @@ public class ConexionEstatica {
         return es;
     }
 
+    public static boolean registrarUsuario(String nombre, String apellidos, String email, String passwd) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia1 = "Insert into users values(Null,'" + nombre + "','" + apellidos + "','" + email + "','" + passwd + "', 1)";
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia1);
+            String sentencia2 = "Select id from users where email = '" + email + "'";
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia2);
+            if (Conj_Registros.next()) {
+                int id = Conj_Registros.getInt(1);
+                String sentencia3 = "Insert into asignacionRol values (" + id + ",2)";
+                Sentencia_SQL.executeUpdate(sentencia3);
+                ok = true;
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
     public static LinkedList getExamenes() {
         nueva();
         LinkedList listaExamenes = new LinkedList();
