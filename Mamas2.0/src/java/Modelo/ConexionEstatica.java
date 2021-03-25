@@ -328,6 +328,38 @@ public class ConexionEstatica {
         cerrarBD();
         return ok;
     }
+
+    public static boolean crearPregunta(Pregunta aux) {
+        nueva();
+        boolean ok = false;
+        int idExamen = -1;
+        String tipo = aux.getTipo();
+        String descripcion = aux.getDescripcion();
+        String resp1 = aux.getRespuesta1();
+        String resp2 = aux.getRespuesta2();
+        String resp3 = aux.getRespuesta3();
+        String resp4 = aux.getRespuesta4();
+        String respCorrecta = aux.getRespuestaCorrecta();
+
+        String sentencia1 = "INSERT INTO pregunta VALUES(NULL, " + idExamen + ",'" + descripcion + "')";
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia1);
+            String sentencia2 = "SELECT idPregunta FROM pregunta where idExamen = " + idExamen + " AND pregunta = '" + descripcion + "'";
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia2);
+            if (Conj_Registros.next()) {
+                String idPregunta = Conj_Registros.getString("idPregunta");
+                String sentencia3 = "INSERT INTO respuestaCorrecta VALUES(" + idPregunta + ",'" + tipo + "','" + resp1 + "','" + resp2 + "','" + resp3 + "','" + resp4 + "','" + respCorrecta + "')";
+                Sentencia_SQL.executeUpdate(sentencia3);
+                ok = true;
+            }
+
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
 //
 //    public static boolean enviarMensaje(String emisor, String receptor, String asunto, String cuerpo) {
 //        nueva();
