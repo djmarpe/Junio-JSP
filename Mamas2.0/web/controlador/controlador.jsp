@@ -10,7 +10,7 @@
         session.removeAttribute("msj");
         response.sendRedirect("../Vistas/login.jsp");
     }
-    
+
     if (request.getParameter("registro") != null) {
         session.removeAttribute("msj");
         response.sendRedirect("../Vistas/registro.jsp");
@@ -61,12 +61,12 @@
         String apellidos = request.getParameter("surname_registro");
         String email = request.getParameter("email_registro");
         String passwd = request.getParameter("passwd_registro");
-        
+
         if (ConexionEstatica.registrarUsuario(nombre, apellidos, email, passwd)) {
             session.setAttribute("msj", "Usuario registrado, ya puede iniciar sesión!");
             response.sendRedirect("../Vistas/login.jsp");
         }
-        
+
     }
 
     //**************************************************************************
@@ -78,7 +78,7 @@
         session.setAttribute("listaAlumnos", listaAlumnos);
         response.sendRedirect("../Vistas/adminAlumnos.jsp");
     }
-    
+
     if (request.getParameter("alumnos_btn_editar") != null) {
         Persona aux = new Persona();
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
@@ -99,7 +99,7 @@
             response.sendRedirect("../Vistas/adminAlumnos.jsp");
         }
     }
-    
+
     if (request.getParameter("alumnos_btn_borrar") != null) {
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
         int id = Integer.parseInt(request.getParameter("idAlumno"));
@@ -110,7 +110,7 @@
             response.sendRedirect("../Vistas/adminAlumnos.jsp");
         }
     }
-    
+
     if (request.getParameter("alumnos_btn_agregar") != null) {
         Persona usuarioLogin = (Persona) session.getAttribute("usuarioLogin");
         Persona aux = new Persona();
@@ -137,6 +137,12 @@
     //**************************************************************************
     //************************* CRUD examenes **********************************
     //**************************************************************************
+    if (request.getParameter("adminExamenes") != null) {
+        LinkedList<Examen> listaExamen = (LinkedList<Examen>) ConexionEstatica.getExamenes();
+        session.setAttribute("listaExamen", listaExamen);
+        response.sendRedirect("../Vistas/panelProfesor.jsp");
+    }
+
     //Si pulsamos sobre el boton de parar
     if (request.getParameter("examenes_btn_parar") != null) {
         int id = Integer.parseInt(request.getParameter("idExamen"));

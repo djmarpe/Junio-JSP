@@ -48,13 +48,13 @@
                         <a class="navbar-brand text-dark" href="#">
                             Crear examen
                         </a>
-                        <a class="navbar-brand text-dark" href="#">
+                        <a class="navbar-brand text-dark" href="crearPreguntas.jsp">
                             Crear preguntas
                         </a>
-                        <a class="navbar-brand text-dark" href="panelProfesor.jsp">
+                        <a class="navbar-brand text-dark" href="../controlador/controlador.jsp?adminExamenes=adminExamenes">
                             Admin. examenes
                         </a>
-                        <a class="navbar-brand text-dark text-decoration-underline" href="adminAlumnos.jsp">
+                        <a class="navbar-brand text-dark text-decoration-underline" href="../controlador/controlador.jsp?adminAlumnos=adminAlumnos">
                             Admin. usuarios
                         </a>
 
