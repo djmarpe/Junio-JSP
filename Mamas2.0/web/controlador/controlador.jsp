@@ -1,3 +1,4 @@
+<%@page import="Modelo.PreguntaAux"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="Modelo.Examen"%>
 <%@page import="Modelo.Persona"%>
@@ -176,5 +177,43 @@
     //Si pulsamos sobre el boton de parar
     if (request.getParameter("examenes_btn_corregir") != null) {
         int id = Integer.parseInt(request.getParameter("idExamen"));
+    }
+
+    //**************************************************************************
+    //************************* Crear examen ***********************************
+    //**************************************************************************
+    if (request.getParameter("crearExamen") != null) {
+        LinkedList<PreguntaAux> preguntasDisponibles = ConexionEstatica.getPreguntas();
+        LinkedList<PreguntaAux> tipoTexto = new LinkedList<PreguntaAux>();
+        LinkedList<PreguntaAux> tipoNumerica = new LinkedList<PreguntaAux>();
+        LinkedList<PreguntaAux> tipoUnaOpcion = new LinkedList<PreguntaAux>();
+        LinkedList<PreguntaAux> tipoVariasOpciones = new LinkedList<PreguntaAux>();
+        for (int i = 0; i < preguntasDisponibles.size(); i++) {
+            int idPregunta = preguntasDisponibles.get(i).getIdPregunta();
+            int idExamen = preguntasDisponibles.get(i).getIdExamen();
+            String descripcion = preguntasDisponibles.get(i).getDescripcion();
+            String tipo = preguntasDisponibles.get(i).getTipo();
+            switch (tipo) {
+                case "Texto":
+                    tipoTexto.add(preguntasDisponibles.get(i));
+                    session.setAttribute("tipoTexto", tipoTexto);
+                    break;
+                case "Numerica":
+                    tipoNumerica.add(preguntasDisponibles.get(i));
+                    session.setAttribute("tipoNumerica", tipoNumerica);
+                    break;
+                case "Una opcion":
+                    tipoUnaOpcion.add(preguntasDisponibles.get(i));
+                    session.setAttribute("tipoUnaOpcion", tipoUnaOpcion);
+                    break;
+                case "Varias opciones":
+                    tipoVariasOpciones.add(preguntasDisponibles.get(i));
+                    session.setAttribute("tipoVariasOpciones", tipoVariasOpciones);
+                    break;
+            }
+        }
+        session.setAttribute("preguntasDisponibles", preguntasDisponibles);
+        response.sendRedirect("../Vistas/crearExamen.jsp");
+
     }
 %>

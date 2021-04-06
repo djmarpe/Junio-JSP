@@ -16,6 +16,7 @@ public class ConexionEstatica {
     private static java.sql.Statement Sentencia_SQL;
     //Atributo que nos permite ejecutar una sentencia SQL
     private static java.sql.ResultSet Conj_Registros;
+    private static java.sql.ResultSet Fila;
 
     public static void nueva() {
         try {
@@ -171,7 +172,7 @@ public class ConexionEstatica {
             Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
             while (Conj_Registros.next()) {
                 Examen ex = new Examen();
-                ex.setId(Conj_Registros.getInt(1));
+                ex.setId(Conj_Registros.getString(1));
                 ex.setIdProfesor(Conj_Registros.getInt(2));
                 ex.setFechaInicio(Conj_Registros.getString(3));
                 ex.setFechaFin(Conj_Registros.getString(4));
@@ -354,6 +355,103 @@ public class ConexionEstatica {
                 ok = true;
             }
 
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
+    public static LinkedList getPreguntas() {
+        nueva();
+        LinkedList preguntasDisponibles = new LinkedList();
+
+        String sentencia1 = "SELECT * FROM pregunta WHERE idExamen = -1";
+        try {
+            Fila = Sentencia_SQL.executeQuery(sentencia1);
+            while (Fila.next()) {
+                int idPregunta = Fila.getInt(1);
+                int idExamen = Fila.getInt(2);
+                String descripcion = Fila.getString(3);
+
+                String sentencia2 = "SELECT tipo FROM respuestaCorrecta WHERE idPregunta = " + idPregunta;
+                Conj_Registros = Sentencia_SQL.executeQuery(sentencia2);
+                if (Conj_Registros.next()) {
+                    String tipo = Conj_Registros.getString(1);
+                    PreguntaAux aux = new PreguntaAux(idPregunta, idExamen, descripcion, tipo);
+                    preguntasDisponibles.add(aux);
+                }
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return preguntasDisponibles;
+    }
+
+    public static boolean addExamen(Examen ex) {
+        nueva();
+        boolean ok = false;
+
+        int idProfesor = ex.getIdProfesor();
+        String titulo = ex.getTitulo();
+        String descripcion = ex.getDescripcion();
+
+        String sentencia = "INSERT INTO examen VALUES(null," + idProfesor + ",NOW(), NOW(), 0,'" + titulo + "','" + descripcion + "')";
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
+        } catch (SQLException ex1) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
+    public static int getIdExamen(int idProfesor, String titulo, String descripcion) {
+        nueva();
+        int idExamen = 0;
+
+        String sentencia = "select id from examen Where idProfesor = " + idProfesor + " AND titulo = '" + titulo + "' AND descripcion='" + descripcion + "'";
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            if (Conj_Registros.next()) {
+                idExamen = Conj_Registros.getInt(1);
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return idExamen;
+    }
+
+    public static int getIdPregunta(String pre) {
+        nueva();
+        int id = 0;
+
+        String sentencia = "SELECT idPregunta FROM pregunta WHERE pregunta = '" + pre + "'";
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            if (Conj_Registros.next()) {
+                id = Conj_Registros.getInt(1);
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return id;
+    }
+
+    public static boolean asignarPreguntasExamen(int idExamen, int idPregunta) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "UPDATE pregunta SET idExamen = " + idExamen + " WHERE idPregunta = " + idPregunta;
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            ok = true;
         } catch (SQLException ex) {
         }
 

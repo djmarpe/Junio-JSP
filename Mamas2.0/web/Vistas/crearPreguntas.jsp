@@ -41,7 +41,7 @@
             <div class="row m-3 bg-white">
                 <div class="col-12" id="menu-list">
                     <div class="navbar m-0 p-2 navbar-brand ">
-                        <a class="navbar-brand text-dark" href="#">
+                        <a class="navbar-brand text-dark" href="../controlador/controlador.jsp?crearExamen=crearExamen">
                             Crear examen
                         </a>
                         <a class="navbar-brand text-dark text-decoration-underline" href="crearPreguntas.jsp">
