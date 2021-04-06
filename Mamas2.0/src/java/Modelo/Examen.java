@@ -11,7 +11,7 @@ package Modelo;
  */
 public class Examen {
 
-    private int id;
+    private String id;
     private int idProfesor;
     private String fechaInicio;
     private String fechaFin;
@@ -20,7 +20,7 @@ public class Examen {
     private String descripcion;
 
     public Examen() {
-        this.id = 0;
+        this.id = "";
         this.idProfesor = 0;
         this.fechaInicio = "";
         this.fechaFin = "";
@@ -29,7 +29,7 @@ public class Examen {
         this.descripcion = "";
     }
 
-    public Examen(int id, int idProfesor, String fechaInicio, String fechaFin, int estado, String titulo, String descripcion) {
+    public Examen(String id, int idProfesor, String fechaInicio, String fechaFin, int estado, String titulo, String descripcion) {
         this.id = id;
         this.idProfesor = idProfesor;
         this.fechaInicio = fechaInicio;
@@ -39,11 +39,11 @@ public class Examen {
         this.descripcion = descripcion;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
