@@ -10,6 +10,7 @@ package Modelo;
  * @author alejandro
  */
 public class Pregunta {
+    private int id;
     private String tipo;
     private String descripcion;
     private String respuesta1;
@@ -18,7 +19,8 @@ public class Pregunta {
     private String respuesta4;
     private String respuestaCorrecta;
 
-    public Pregunta(String tipo, String descripcion, String respuesta1, String respuesta2, String respuesta3, String respuesta4, String respuestaCorrecta) {
+    public Pregunta(int id, String tipo, String descripcion, String respuesta1, String respuesta2, String respuesta3, String respuesta4, String respuestaCorrecta) {
+        this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.respuesta1 = respuesta1;
@@ -29,6 +31,7 @@ public class Pregunta {
     }
 
     public Pregunta() {
+        this.id = 0;
         this.tipo = "";
         this.descripcion = "";
         this.respuesta1 = "";
@@ -36,6 +39,14 @@ public class Pregunta {
         this.respuesta3 = "";
         this.respuesta4 = "";
         this.respuestaCorrecta = "";
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTipo() {

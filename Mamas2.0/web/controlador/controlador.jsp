@@ -35,6 +35,10 @@
                     response.sendRedirect("../Vistas/panelProfesor.jsp");
                 }
                 if (ConexionEstatica.esAlumno(usuarioLogin)) {
+                    LinkedList examanesProgramados = ConexionEstatica.getExamenesProgramados();
+                    LinkedList examenesCorregidos = ConexionEstatica.getExamenesCorregidos(usuarioLogin.getId());
+                    session.setAttribute("listaExamenesProgramados", examanesProgramados);
+                    session.setAttribute("listaExamenesCorregidos", examenesCorregidos);
                     response.sendRedirect("../Vistas/panelAlumno.jsp");
                 }
                 session.setAttribute("usuarioLogin", usuarioLogin);
@@ -216,4 +220,5 @@
         response.sendRedirect("../Vistas/crearExamen.jsp");
 
     }
+
 %>

@@ -22,6 +22,9 @@ public class PreguntaAux {
         this.tipo = tipo;
     }
 
+    public PreguntaAux() {
+    }
+
     public int getIdPregunta() {
         return idPregunta;
     }
