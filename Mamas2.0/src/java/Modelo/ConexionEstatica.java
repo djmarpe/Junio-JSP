@@ -458,309 +458,193 @@ public class ConexionEstatica {
         cerrarBD();
         return ok;
     }
-//
-//    public static boolean enviarMensaje(String emisor, String receptor, String asunto, String cuerpo) {
-//        nueva();
-//        boolean enviado = false;
-//
-//        String sentencia = "Insert into " + Constantes.tablaMensaje + " values( Null, '" + asunto + "', '" + cuerpo + "', '" + emisor + "', '" + receptor + "')";
-//
-//        try {
-//            Sentencia_SQL.executeUpdate(sentencia);
-//            enviado = true;
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return enviado;
-//
-//    }
-//
-//    public static int existeUsuarioMensaje(String usuario) {
-//        nueva();
-//
-//        //cod = 0 --> Todo OK
-//        int cod = -9;
-//
-//        String sentencia = "Select * from " + Constantes.tablaUsuario + " where Email = '" + usuario + "';";
-//
-//        try {
-//            ConexionEstatica.Conj_Registros = ConexionEstatica.Sentencia_SQL.executeQuery(sentencia);
-//            if (ConexionEstatica.Conj_Registros.next()) {
-//                cod = 0;
-//            }
-//        } catch (SQLException ex) {
-//            cod = ex.getErrorCode();
-//        }
-//
-//        cerrarBD();
-//
-//        return cod;
-//
-//    }
-//
-//    public static int existeUsuario(String usuario, String clave) {
-//        nueva();
-//
-//        //cod = 0 --> Todo OK
-//        int cod = -9;
-//
-//        String sentencia = "Select * from " + Constantes.tablaUsuario + " where Email = '" + usuario + "' and Contra = '" + clave + "';";
-//
-//        try {
-//            ConexionEstatica.Conj_Registros = ConexionEstatica.Sentencia_SQL.executeQuery(sentencia);
-//            if (ConexionEstatica.Conj_Registros.next()) {
-//                cod = 0;
-//            }
-//        } catch (SQLException ex) {
-//            cod = ex.getErrorCode();
-//        }
-//
-//        cerrarBD();
-//
-//        return cod;
-//
-//    }
-//
-//    public static boolean addUsuario(Persona p) {
-//        nueva();
-//        boolean ok = false;
-//
-//        //--------------------- Insertamos en la tabla Usuarios ----------------
-//        String sentencia1 = "Insert into Usuario values('" + p.getNombre() + "', '" + p.getApellidos() + "', '" + p.getDni() + "', '" + p.getEmail() + "','" + p.getContra() + "', " + p.getEdad() + ", '" + p.getFoto() + "', " + p.getSexo() + ", " + p.getActivado() + ");";
-//
-//        try {
-//            Sentencia_SQL.executeUpdate(sentencia1);
-//            ok = true;
-//        } catch (SQLException ex) {
-//        }
-//
-//        //--------------------- Asignamos Rol en la tabla ----------------------
-//        String sentencia2 = "Insert into AsignacionRol values(Null, '2', '" + p.getEmail() + "');";
-//
-//        try {
-//            Sentencia_SQL.executeUpdate(sentencia2);
-//            ok = true;
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return ok;
-//    }
-//
-//    public static boolean eliminarUsuario(String usuario, String clave) {
-//        nueva();
-//
-//        boolean eliminado = false;
-//
-//        //------------------ Eliminacion de la tabla Usuarios ------------------
-//        String sentencia1 = "delete from Usuario where Email = '" + usuario + "' and Contra = '" + clave + "';";
-//        try {
-//
-//            Sentencia_SQL.executeUpdate(sentencia1);
-//            eliminado = true;
-//
-//        } catch (SQLException ex) {
-//        }
-//
-//        //----------------- Eliminacion de los roles asignados ----------------
-//        String sentencia2 = "delete from AsignacionRol where emailUsuario = '" + usuario + "';";
-//        try {
-//            Sentencia_SQL.executeUpdate(sentencia2);
-//            eliminado = true;
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return eliminado;
-//    }
-//
-//    public static boolean modificarUsuario(Persona p) {
-//        nueva();
-//        boolean modificado = false;
-//
-//        //------------------- Modificando en la tabla Usuario ------------------
-//        String sentencia1 = "update Usuario set Nombre = '" + p.getNombre() + "', Apellidos = '" + p.getApellidos() + "', DNI = '" + p.getDni() + "', Email='" + p.getEmail() + "', Contra='" + p.getContra() + "', Edad=" + p.getEdad() + ", Sexo=" + p.getSexo() + ", Activado=" + p.getActivado() + " Where Email='" + p.getEmail() + "'";
-//
-//        try {
-//            Sentencia_SQL.executeUpdate(sentencia1);
-//            modificado = true;
-//        } catch (SQLException ex) {
-//        }
-//
-//        //---------------- Modificando en la tabla AsignacionRol ---------------
-//        if (p.getEsAdmin() == 1) {
-//            if (!ConexionEstatica.esAdmin(p.getEmail())) {
-//                String sentencia2 = "Insert into AsignacionRol values(Null, '1', '" + p.getEmail() + "');";
-//                try {
-//                    nueva();
-//                    Sentencia_SQL.executeUpdate(sentencia2);
-//                    cerrarBD();
-//                    modificado = true;
-//                } catch (SQLException ex) {
-//                }
-//            }
-//        }
-//
-//        if (p.getEsAdmin() == 0) {
-//            if (ConexionEstatica.esAdmin(p.getEmail())) {
-//                String sentencia2 = "Delete from AsignacionRol Where emailUsuario = '" + p.getEmail() + "' and idRol=1;";
-//                try {
-//                    nueva();
-//                    Sentencia_SQL.executeUpdate(sentencia2);
-//                    cerrarBD();
-//                    modificado = true;
-//                } catch (SQLException ex) {
-//                }
-//            }
-//        }
-//
-//        cerrarBD();
-//        return modificado;
-//    }
-//
-//    public static Persona getPersona(String usuario, String clave) {
-//        nueva();
-//
-//        Persona p = new Persona();
-//
-//        String sentencia = "Select Usuario.Nombre, Usuario.Apellidos, Usuario.DNI, Usuario.Email, Usuario.Contra, Usuario.Edad, Usuario.Foto, Usuario.Sexo, Rol.Rol from Usuario, Rol, AsignacionRol where Usuario.Email = '" + usuario + "' and Usuario.Contra = '" + clave + "' and AsignacionRol.emailUsuario = Usuario.Email and AsignacionRol.idRol=Rol.idRol;";
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                p.setNombre(Conj_Registros.getString("Nombre"));
-//                p.setApellidos(Conj_Registros.getString("Apellidos"));
-//                p.setDni(Conj_Registros.getString("DNI"));
-//                p.setEmail(Conj_Registros.getString("Email"));
-//                p.setContra(Conj_Registros.getString("Contra"));
-//                p.setEdad(Conj_Registros.getString("Edad"));
-//                //p.setFoto(Conj_Registros.getString("Foto"));
-//                p.setSexo(Conj_Registros.getInt("Sexo"));
-//                p.addRol(Conj_Registros.getString("Rol"));
-//            }
-//
-//        } catch (SQLException ex) {
-//        }
-//        cerrarBD();
-//        return p;
-//    }
-//
-//    public static LinkedList<Persona> getGenteCercana(Persona p) {
-//        nueva();
-//        LinkedList<Persona> lp = new LinkedList<>();
-//        Persona aux = null;
-//        String sentencia = "select * from " + Constantes.tablaUsuario + " Where DNI <> '" + p.getDni() + "';";
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                aux = new Persona();
-//                aux.setNombre(Conj_Registros.getString("Nombre"));
-//                aux.setApellidos(Conj_Registros.getString("Apellidos"));
-//                aux.setDni(Conj_Registros.getString("DNI"));
-//                aux.setEmail(Conj_Registros.getString("Email"));
-//                aux.setContra(Conj_Registros.getString("Contra"));
-//                aux.setEdad(Conj_Registros.getString("Edad"));
-//                aux.setFoto(Conj_Registros.getString("Foto"));
-//                aux.setActivado(Conj_Registros.getInt("Activado"));
-//                aux.setSexo(Conj_Registros.getInt("Sexo"));
-//                lp.add(aux);
-//            }
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return lp;
-//    }
-//
-//    public static LinkedList getRoles() {
-//        nueva();
-//
-//        LinkedList roles = new LinkedList();
-//
-//        String sentencia = "Select Rol from " + Constantes.tablaRol;
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                roles.add(Conj_Registros.getString("Rol"));
-//            }
-//        } catch (SQLException ex) {
-//        }
-//        cerrarBD();
-//        return roles;
-//    }
-//
-//    public static LinkedList getAdministradores() {
-//        nueva();
-//        LinkedList administradores = new LinkedList();
-//        Persona p = null;
-//        String sentencia = "select * from Usuario, AsignacionRol WHERE AsignacionRol.emailUsuario=Usuario.Email and AsignacionRol.idRol=1;";
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                p = new Persona();
-//                p.setNombre(Conj_Registros.getString("Nombre"));
-//                p.setApellidos(Conj_Registros.getString("Apellidos"));
-//                p.setDni(Conj_Registros.getString("DNI"));
-//                p.setEmail(Conj_Registros.getString("Email"));
-//                p.setContra(Conj_Registros.getString("Contra"));
-//                p.setEdad(Conj_Registros.getString("Edad"));
-//                p.setSexo(Conj_Registros.getInt("Sexo"));
-//                p.setActivado(Conj_Registros.getInt("Activado"));
-//                administradores.add(p);
-//            }
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return administradores;
-//    }
-//
-//    public static LinkedList getUsuarios() {
-//        nueva();
-//        LinkedList usuarios = new LinkedList();
-//        Persona p = null;
-//        String sentencia = "select * from Usuario, AsignacionRol WHERE AsignacionRol.emailUsuario=Usuario.Email and AsignacionRol.idRol=2;";
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                p = new Persona();
-//                p.setNombre(Conj_Registros.getString("Nombre"));
-//                p.setApellidos(Conj_Registros.getString("Apellidos"));
-//                p.setDni(Conj_Registros.getString("DNI"));
-//                p.setEmail(Conj_Registros.getString("Email"));
-//                p.setContra(Conj_Registros.getString("Contra"));
-//                p.setEdad(Conj_Registros.getString("Edad"));
-//                p.setSexo(Conj_Registros.getInt("Sexo"));
-//                p.setActivado(Conj_Registros.getInt("Activado"));
-//                usuarios.add(p);
-//            }
-//        } catch (SQLException ex) {
-//        }
-//
-//        cerrarBD();
-//        return usuarios;
-//    }
-//
-//    private static boolean esAdmin(String email) {
-//        nueva();
-//        boolean loes = false;
-//        String sentencia = "Select * from AsignacionRol where emailUsuario = '" + email + "';";
-//
-//        try {
-//            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
-//            while (Conj_Registros.next()) {
-//                if (Conj_Registros.getInt("idRol") == 1) {
-//                    loes = true;
-//                }
-//            }
-//        } catch (SQLException ex) {
-//        }
-//        cerrarBD();
-//        return loes;
-//    }
+
+    public static LinkedList getExamenesProgramados() {
+        nueva();
+        LinkedList lista = null;
+        Examen exProgramados = null;
+
+        String sentencia = "SELECT * FROM examen WHERE estado = 1";
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            while (Conj_Registros.next()) {
+                lista = new LinkedList();
+                exProgramados = new Examen();
+                exProgramados.setId(String.valueOf(Conj_Registros.getInt(1)));
+                exProgramados.setIdProfesor(Conj_Registros.getInt(2));
+                exProgramados.setFechaInicio(Conj_Registros.getString(3));
+                exProgramados.setFechaFin(Conj_Registros.getString(4));
+                exProgramados.setEstado(Conj_Registros.getInt(5));
+                exProgramados.setTitulo(Conj_Registros.getString(6));
+                exProgramados.setDescripcion(Conj_Registros.getString(7));
+                lista.add(exProgramados);
+            }
+        } catch (SQLException ex1) {
+        }
+
+        cerrarBD();
+        return lista;
+    }
+
+    public static LinkedList getExamenesCorregidos(int idAlumno) {
+        nueva();
+        LinkedList lista = null;
+        ExamenAlumno exCorregidos = null;
+
+        String sentencia1 = "SELECT * FROM examenAlumno WHERE idAlumno = " + idAlumno;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia1);
+            //Obtenemos todos los examenes corregidos de ese alumno
+            while (Conj_Registros.next()) {
+                exCorregidos = new ExamenAlumno();
+                lista = new LinkedList();
+                exCorregidos.setIdExamen(Conj_Registros.getInt(1));
+                exCorregidos.setIdAlumno(idAlumno);
+                exCorregidos.setNota(Conj_Registros.getInt(3));
+
+                //Obtenemos el titulo del examen
+                String sentencia2 = "SELECT titulo FROM examen WHERE id = " + exCorregidos.getIdExamen();
+                Fila = Sentencia_SQL.executeQuery(sentencia2);
+                if (Fila.next()) {
+                    exCorregidos.setTitulo(Fila.getString(1));
+                    lista.add(exCorregidos);
+                }
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return lista;
+    }
+
+    public static Examen getExamen(int id) {
+        nueva();
+        Examen examen = null;
+
+        String sentencia = "SELECT * FROM examen WHERE id = " + id;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            if (Conj_Registros.next()) {
+                examen = new Examen();
+                examen.setId(String.valueOf(id));
+                examen.setIdProfesor(Conj_Registros.getInt(2));
+                examen.setFechaInicio(Conj_Registros.getString(3));
+                examen.setFechaFin(Conj_Registros.getString(4));
+                examen.setEstado(Conj_Registros.getInt(5));
+                examen.setTitulo(Conj_Registros.getString(6));
+                examen.setDescripcion(Conj_Registros.getString(7));
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return examen;
+    }
+
+    public static LinkedList getPreguntasExamen(int idExamen) {
+        nueva();
+        LinkedList preguntasExamen = null;
+        PreguntaAux aux = null;
+
+        String sentencia1 = "SELECT * FROM pregunta WHERE idExamen=" + idExamen;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia1);
+            preguntasExamen = new LinkedList();
+            while (Conj_Registros.next()) {
+                aux = new PreguntaAux();
+                aux.setIdPregunta(Conj_Registros.getInt(1));
+                aux.setIdExamen(Conj_Registros.getInt(2));
+                aux.setDescripcion(Conj_Registros.getString(3));
+
+                String consulta2 = "SELECT tipo FROM respuestaCorrecta WHERE idPregunta=" + aux.getIdPregunta();
+
+                Fila = Sentencia_SQL.executeQuery(consulta2);
+
+                if (Fila.next()) {
+                    aux.setTipo(Fila.getString(1));
+                    preguntasExamen.add(aux);
+                }
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return preguntasExamen;
+    }
+
+    public static Pregunta getRespuestas(int id) {
+        nueva();
+        Pregunta pregunta = null;
+
+        String sentencia = "SELECT * FROM respuestaCorrecta WHERE idPregunta=" + id;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            if (Conj_Registros.next()) {
+                pregunta = new Pregunta();
+                pregunta.setId(id);
+                pregunta.setTipo(Conj_Registros.getString(2));
+                pregunta.setRespuesta1(Conj_Registros.getString(3));
+                pregunta.setRespuesta2(Conj_Registros.getString(4));
+                pregunta.setRespuesta3(Conj_Registros.getString(5));
+                pregunta.setRespuesta4(Conj_Registros.getString(6));
+                pregunta.setRespuestaCorrecta(Conj_Registros.getString(7));
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return pregunta;
+    }
+
+    public static boolean isExamen(int idExamen, int idAlumno) {
+        nueva();
+        boolean ok = false;
+
+        String sentencia = "SELECT * FROM respuestaAlumno WHERE idExamen=" + idExamen + " AND idAlumno=" + idAlumno;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            while (Conj_Registros.next()) {
+                ok = true;
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return ok;
+    }
+
+    public static void deleteRespuestas(int idExamen, int idAlumno) {
+        nueva();
+        boolean delete = false;
+
+        String sentencia = "DELETE FROM respuestasAlumnos WHERE id_Examen=" + idExamen + " AND idAlumno=" + idAlumno;
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+            delete = true;
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+    }
+
+    public static void addRespuesta(int idExamen, int idAlumno, int idPregunta, String respuesta) {
+        nueva();
+
+        String sentencia = "INSERT INTO respuestaAlumno VALUES (" + idExamen + "," + idAlumno + "," + idPregunta + ",'" + respuesta + "'" + ")";
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+    }
+
 }
