@@ -120,7 +120,7 @@
                     if (listaAlumnos != null) {
                 %>
 
-                <table class="w-100 my-5">
+                <table class="w-100 my-5 table">
                     <tr class="m-5">
                         <th class="h3 w-auto">Nombre</th>
                         <th class="h3 w-auto">Apellidos</th>
