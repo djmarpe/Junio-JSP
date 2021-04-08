@@ -39,7 +39,7 @@
                 case "Texto":
                     descripcion = request.getParameter("descripcion");
                     respuestaCorrecta = request.getParameter("resp_correcta_texto");
-                    aux = new Pregunta(tipo, descripcion, respuestaCorrecta, "", "", "", respuestaCorrecta);
+                    aux = new Pregunta(0,tipo, descripcion, respuestaCorrecta, "", "", "", respuestaCorrecta);
                     if (ConexionEstatica.crearPregunta(aux)) {
                         response.sendRedirect("../Vistas/crearPreguntas.jsp");
                     }
@@ -47,7 +47,7 @@
                 case "Numerica":
                     descripcion = request.getParameter("descripcion");
                     respuestaCorrecta = request.getParameter("resp_correcta_numerica");
-                    aux = new Pregunta(tipo, descripcion, respuestaCorrecta, "", "", "", respuestaCorrecta);
+                    aux = new Pregunta(0,tipo, descripcion, respuestaCorrecta, "", "", "", respuestaCorrecta);
                     if (ConexionEstatica.crearPregunta(aux)) {
                         response.sendRedirect("../Vistas/crearPreguntas.jsp");
                     }
@@ -61,16 +61,16 @@
                     String respuestaValida_D = request.getParameter("resp_d");
                     switch (respuestaCorrecta) {
                         case "opc_a":
-                            aux = new Pregunta(tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_A);
+                            aux = new Pregunta(0,tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_A);
                             break;
                         case "opc_b":
-                            aux = new Pregunta(tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_B);
+                            aux = new Pregunta(0,tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_B);
                             break;
                         case "opc_c":
-                            aux = new Pregunta(tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_C);
+                            aux = new Pregunta(0,tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_C);
                             break;
                         case "opc_d":
-                            aux = new Pregunta(tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_D);
+                            aux = new Pregunta(0,tipo, descripcion, respuestaValida_A, respuestaValida_B, respuestaValida_C, respuestaValida_D, respuestaValida_D);
                             break;
                     }
                     if (ConexionEstatica.crearPregunta(aux)) {
@@ -105,7 +105,7 @@
                         respuestaCorrecta = respuestaCorrecta + respValida_D + separador;
                     }
 
-                    aux = new Pregunta(tipo, descripcion, respValida_A, respValida_B, respValida_C, respValida_D, respuestaCorrecta);
+                    aux = new Pregunta(0,tipo, descripcion, respValida_A, respValida_B, respValida_C, respValida_D, respuestaCorrecta);
 
                     if (ConexionEstatica.crearPregunta(aux)) {
                         response.sendRedirect("../Vistas/crearPreguntas.jsp");
