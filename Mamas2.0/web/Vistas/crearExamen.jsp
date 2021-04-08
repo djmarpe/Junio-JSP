@@ -45,7 +45,6 @@
 
                 <div class="col-6 align-self-center">
                     <a href="../controlador/controlador.jsp?cerrarSesion=cerrarSesion" class="float-end mx-3 btn btn-danger">Cerrar sesión</a>
-                    <a href="panelAlumno.jsp" class="float-end mx-3 btn btn-secondary">Vista alumno</a>
                 </div>
             </header>
             <div class="row bg-white m-3">

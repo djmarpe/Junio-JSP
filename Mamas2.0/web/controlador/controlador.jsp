@@ -1,3 +1,4 @@
+<%@page import="Modelo.RespuestaAlumno"%>
 <%@page import="Modelo.PreguntaAux"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="Modelo.Examen"%>
@@ -180,7 +181,32 @@
     }
     //Si pulsamos sobre el boton de parar
     if (request.getParameter("examenes_btn_corregir") != null) {
-        int id = Integer.parseInt(request.getParameter("idExamen"));
+        int idExamen = Integer.parseInt(request.getParameter("idExamen"));
+
+        LinkedList ids = ConexionEstatica.getIDS(idExamen);
+        for (int i = 0; i < ids.size(); i++) {
+            RespuestaAlumno aux = new RespuestaAlumno();
+            int idAlumno = (int) ids.get(i);
+            int aciertos = 0;
+            int total = 0;
+            LinkedList respuestasAlumno = ConexionEstatica.getRespuestasAlumno(idAlumno, idExamen);
+            for (int j = 0; j < respuestasAlumno.size(); j++) {
+                RespuestaAlumno respAux = (RespuestaAlumno) respuestasAlumno.get(j);
+                String respCorrecta = ConexionEstatica.getCorrecta(respAux.getIdPregunta());
+                if (respAux.getRespuesta().trim().contains(respCorrecta.trim())) {
+                    aciertos++;
+                }
+                total++;
+            }
+            aux = (RespuestaAlumno) respuestasAlumno.get(0);
+            String nota = aciertos + "/" + total;
+            ConexionEstatica.setNota(aux.getIdExamen(), aux.getIdAlumno(), nota);
+        }
+        ConexionEstatica.actualizarEstado(idExamen);
+        session.removeAttribute("listaExamen");
+        LinkedList<Examen> listaExamen = (LinkedList<Examen>) ConexionEstatica.getExamenes();
+        session.setAttribute("listaExamen", listaExamen);
+        response.sendRedirect("../Vistas/panelProfesor.jsp");
     }
 
     //**************************************************************************
