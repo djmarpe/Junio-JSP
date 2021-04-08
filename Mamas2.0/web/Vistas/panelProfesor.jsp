@@ -285,9 +285,6 @@
                         <td>
                             <i class="fas fa-circle text-warning"></i>
                         </td>
-                        <td>
-                            <button class="btn m-0 p-0 border-0" type="submit" name="examenes_btn_ver"><i class="fas fa-eye text-info"></i></button>
-                        </td>
                         </tr>
                     </form>
                     <%
