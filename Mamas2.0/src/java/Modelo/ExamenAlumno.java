@@ -13,9 +13,9 @@ public class ExamenAlumno {
     private int idExamen;
     private String titulo;
     private int idAlumno;
-    private int nota;
+    private String nota;
 
-    public ExamenAlumno(int idExamen, String titulo, int idAlumno, int nota) {
+    public ExamenAlumno(int idExamen, String titulo, int idAlumno, String nota) {
         this.idExamen = idExamen;
         this.titulo = "";
         this.idAlumno = idAlumno;
@@ -26,7 +26,7 @@ public class ExamenAlumno {
         this.idExamen = 0;
         this.titulo = "";
         this.idAlumno = 0;
-        this.nota = 0;
+        this.nota = "";
     }
 
     public int getIdExamen() {
@@ -53,11 +53,11 @@ public class ExamenAlumno {
         this.idAlumno = idAlumno;
     }
 
-    public int getNota() {
+    public String getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(String nota) {
         this.nota = nota;
     }
     
