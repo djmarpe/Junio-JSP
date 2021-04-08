@@ -647,4 +647,88 @@ public class ConexionEstatica {
         cerrarBD();
     }
 
+    public static LinkedList getIDS(int id) {
+        nueva();
+        LinkedList lista = null;
+
+        String sentencia = "SELECT DISTINCT idAlumno from respuestaAlumno WHERE idExamen=" + id;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            lista = new LinkedList();
+            while (Conj_Registros.next()) {
+                lista.add(Conj_Registros.getInt(1));
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return lista;
+    }
+
+    public static LinkedList getRespuestasAlumno(int idAlumno, int idExamen) {
+        nueva();
+        LinkedList lista = null;
+        RespuestaAlumno aux = null;
+
+        String sentencia = "SELECT * FROM respuestaAlumno WHERE idAlumno=" + idAlumno + " AND idExamen=" + idExamen;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            lista =  new LinkedList();
+            while (Conj_Registros.next()) {
+                aux = new RespuestaAlumno(Conj_Registros.getInt(1), Conj_Registros.getInt(2), Conj_Registros.getInt(3), Conj_Registros.getString(4));
+                lista.add(aux);
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return lista;
+    }
+
+    public static String getCorrecta(int idPregunta) {
+        nueva();
+        String resp = "";
+
+        String sentencia = "SELECT respuestaCorrecta FROM respuestaCorrecta WHERE idPregunta=" + idPregunta;
+
+        try {
+            Conj_Registros = Sentencia_SQL.executeQuery(sentencia);
+            if (Conj_Registros.next()) {
+                resp = Conj_Registros.getString(1);
+            }
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+        return resp;
+    }
+
+    public static void setNota(int idExamen, int idAlumno, String nota) {
+        nueva();
+
+        String sentencia = "INSERT INTO examenAlumno VALUES(" + idExamen + "," + idAlumno + ",'" + nota + "')";
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+    }
+
+    public static void actualizarEstado(int idExamen) {
+        nueva();
+
+        String sentencia = "UPDATE examen SET estado=3 WHERE id=" + idExamen;
+
+        try {
+            Sentencia_SQL.executeUpdate(sentencia);
+        } catch (SQLException ex) {
+        }
+
+        cerrarBD();
+    }
+
 }
