@@ -502,7 +502,7 @@ public class ConexionEstatica {
                 lista = new LinkedList();
                 exCorregidos.setIdExamen(Conj_Registros.getInt(1));
                 exCorregidos.setIdAlumno(idAlumno);
-                exCorregidos.setNota(Conj_Registros.getInt(3));
+                exCorregidos.setNota(Conj_Registros.getString(3));
 
                 //Obtenemos el titulo del examen
                 String sentencia2 = "SELECT titulo FROM examen WHERE id = " + exCorregidos.getIdExamen();
